@@ -2,6 +2,9 @@
 build
 bin
 
+# CMake
+.cache
+
 # C/C++
 *.o
 *.out
