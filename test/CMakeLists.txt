@@ -3,12 +3,21 @@
 if(ENABLE_TESTS)
   enable_testing()
 
-  add_executable(video_test ${CMAKE_CURRENT_SOURCE_DIR}/video_test.c)
-  target_link_libraries(video_test OTGL)
+  set(TEST_SOURCES
+    video_test
+  )
 
-  if(DEV)
-    target_compile_options(video_test PRIVATE ${CMAKE_C_FLAGS} -Wall -Wextra -g)
-  endif()
+  foreach(test IN LISTS TEST_SOURCES)
+    add_executable(${test} ${CMAKE_CURRENT_SOURCE_DIR}/${test}.c)
+    target_link_libraries(${test} OTGL)
 
-  add_test(NAME video COMMAND video_test)
+    if(DEV)
+      target_compile_options(${test} PRIVATE ${CMAKE_C_FLAGS} -Wall -Wextra -g)
+    endif()
+
+    add_test(
+      NAME ${test}
+      COMMAND ${test}
+    )
+  endforeach()
 endif()

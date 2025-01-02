@@ -4,6 +4,7 @@ bin
 
 # CMake
 .cache
+Testing
 
 # C/C++
 *.o
