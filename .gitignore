@@ -1,0 +1,51 @@
+# This project
+build
+bin
+
+# C/C++
+*.o
+*.out
+*.exe
+*.obj
+*.bin
+*.dSYM/
+
+# Visual Studio
+.vs/
+*.sln
+*.user
+*.suo
+*.csproj.user
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDEs
+.idea/
+*.iml
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Other
+*.tgz
+*.zip
+*.tar.gz
