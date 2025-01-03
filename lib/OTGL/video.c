@@ -7,32 +7,25 @@ Video *vnew(uint16_t nx, uint16_t ny) {
   video->xRes = nx;
   video->yRes = ny;
 
-  video->videoBuf = (char ***)calloc(video->yRes, sizeof(char **));
+  video->videoBuf = (Cell **)calloc(video->yRes, sizeof(Cell *));
   if (video->videoBuf == NULL) {
     fprintf(stderr, "ERROR: Video buffer in TE::Screen constructor is NULL.\n");
     return NULL;
   }
 
   for (uint16_t i = 0; i < video->yRes; i++) {
-    video->videoBuf[i] = (char **)calloc(video->xRes, sizeof(char *));
+    video->videoBuf[i] = (Cell *)calloc(video->xRes, sizeof(Cell));
     if (video->videoBuf[i] == NULL) {
       fprintf(stderr, "ERROR: Column %u is NULL.\n", i);
       return NULL;
     }
-
     for (uint16_t j = 0; j < video->xRes; j++) {
-      // 39 is the maximum size of an RGB ANSI escape sequence.
-      // \033[38;2;255;255;255m\033[48;2;255;255;255mX\0 -> 39 chars
-      video->videoBuf[i][j] = (char *)malloc(39);
-      if (video->videoBuf[i][j] == NULL) {
-        fprintf(stderr, "ERROR: Cell at %u %u is NULL.\n", i, j);
-        return NULL;
-      }
+      video->videoBuf[i][j] = cnew("", "", '\0');
     }
   }
 
   // Fill videoBuf with dummy values.
-  vfill(video, "\033[38;5;15m\033[48;5;0mX");
+  vfill(video, cnew("", "", ' '));
 
   fprintf(stderr, "STATUS: Made Video with dimensions %u by %u.\n", video->xRes,
           video->yRes);
@@ -42,9 +35,6 @@ Video *vnew(uint16_t nx, uint16_t ny) {
 // Deletes the video buffer
 void vdelete(Video *video) {
   for (uint16_t i = 0; i < video->yRes; i++) {
-    for (uint16_t j = 0; j < video->xRes; j++) {
-      free(video->videoBuf[i][j]);
-    }
     free(video->videoBuf[i]);
   }
   free(video->videoBuf);
@@ -56,40 +46,27 @@ void vdelete(Video *video) {
 void vclear() { printf("\033[0;0H\033[0J"); }
 
 // Sets the 'pixel' at {x, y}.
-void vcellSet(const Video *video, uint16_t x, uint16_t y, const char *input) {
+void vcellSet(const Video *video, uint16_t x, uint16_t y, Cell input) {
   if (video == NULL) {
-    fprintf(stderr, "ERROR: Pointer to Video passed is NULL.\n");
+    fprintf(stderr, "ERROR: Video pointer is NULL.\n");
     return;
   }
-
-  char *inputcpy = malloc(strlen(input) + 1);
-  strncpy(inputcpy, input, strlen(input));
-
   if (x >= video->xRes || y >= video->yRes) {
     fprintf(stderr, "ERROR: %u, %u out of range, ignoring.\n", x, y);
-    free(inputcpy);
     return;
   }
 
-  if (video->videoBuf[y][x] == NULL) {
-    fprintf(stderr, "ERROR: trying to write to NULL at x:%u y:%u.\n", x, y);
-    return;
-  }
-
-  strncpy(video->videoBuf[y][x], inputcpy, strlen(inputcpy));
-  video->videoBuf[y][x][strlen(inputcpy)] = '\0';
-  free(inputcpy);
+  video->videoBuf[y][x] = input;
   return;
 }
 
 // Gets the 'pixel' at {x, y}.
-char *vcellGet(const Video *video, uint16_t x, uint16_t y) {
-  strncpy((char *)video->cellGetBuffer, video->videoBuf[y][x], 39);
-  return (char *)video->cellGetBuffer;
+Cell vcellGet(const Video *video, uint16_t x, uint16_t y) {
+  return video->videoBuf[y][x];
 }
 
 // fills the video buffer with a char[] of your choice.
-void vfill(const Video *video, const char input[]) {
+void vfill(const Video *video, Cell input) {
   for (uint16_t i = 0; i < video->yRes; i++) {
     for (uint16_t j = 0; j < video->xRes; j++) {
       // Has to be 'j' then 'i' because 'j' is the x and 'i' is the y,
@@ -102,7 +79,8 @@ void vfill(const Video *video, const char input[]) {
 void vupdate(const Video *video) {
   for (uint16_t i = 0; i < video->yRes; i++) {
     for (uint16_t j = 0; j < video->xRes; j++) {
-      printf("%s", video->videoBuf[i][j]);
+      printf("%s%s%c%c", video->videoBuf[i][j].bg, video->videoBuf[i][j].fg,
+             video->videoBuf[i][j].chr, '\0');
     }
     printf("\n");
   }

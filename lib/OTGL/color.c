@@ -1,51 +1,65 @@
 #include <OTGL/color.h>
 
-/*
-const char TE::Color::esc[] = "\033[";
-const char TE::Color::foregroundPref[] = "38;";
-const char TE::Color::backgroundPref[] = "48;";
-const char TE::Color::eightBitPref[] = "5;";
-const char TE::Color::rgbPref[] = "2;";
-*/
+Cell cnew(const char *newbg, const char *newfg, char newchar) {
+  Cell *pixel = (Cell *)malloc(sizeof(Cell));
 
-char *cologBG(const uint8_t *color, char character) { // 8-bit
+  if ((newbg == NULL) || (newfg == NULL)) {
+    fprintf(stderr, "ERROR: Provided values are NULL.");
+    Cell dummycell = {};
+    return dummycell;
+  }
+  if (strcmp(newbg, "") == 0) {
+    strcpy(pixel->bg, "\033[38;5;15m");
+  } else {
+    strcpy(pixel->bg, newbg);
+  }
+  if (strcmp(newfg, "") == 0) {
+    strcpy(pixel->fg, "\033[48;5;0m");
+  } else {
+
+    strcpy(pixel->fg, newfg);
+  }
+
+  pixel->chr = newchar;
+
+  Cell retpixel = *pixel;
+  return retpixel;
+}
+
+char *colorBG(const uint8_t *color) { // 8-bit
   static char outBuf[21];
-  if (snprintf(outBuf, sizeof(outBuf), "\033[48;5;%" PRIu8 "m%c", *color,
-               character) < 0) {
+  if (snprintf(outBuf, sizeof(outBuf), "\033[48;5;%" PRIu8 "m", *color) < 0) {
     fprintf(stderr, "ERROR: Failed to copy buffer.");
     return NULL;
   }
   return outBuf;
 }
 
-char *colorFG(const uint8_t *color, char character) { // 8-bit
+char *colorFG(const uint8_t *color) { // 8-bit
   static char outBuf[21];
-  if (snprintf(outBuf, sizeof(outBuf), "\033[38;5;%" PRIu8 "m%c", *color,
-               character) < 0) {
+  if (snprintf(outBuf, sizeof(outBuf), "\033[38;5;%" PRIu8 "m", *color) < 0) {
     fprintf(stderr, "ERROR: Failed to copy buffer.");
     return NULL;
   }
   return outBuf;
 }
 
-char *colorBGrgb(const uint8_t *red, const uint8_t *green, const uint8_t *blue,
-                 char character) { // rgb
+char *colorBGrgb(uint8_t red, uint8_t green, uint8_t blue) { // rgb
   static char outBuf[21];
   if (snprintf(outBuf, sizeof(outBuf),
-               "\033[48;2;%" PRIu8 ";%" PRIu8 ";%" PRIu8 "m%c", *red, *green,
-               *blue, character) < 0) {
+               "\033[48;2;%" PRIu8 ";%" PRIu8 ";%" PRIu8 "m", red, green,
+               blue) < 0) {
     fprintf(stderr, "ERROR: Failed to copy buffer.");
     return NULL;
   }
   return outBuf;
 }
 
-char *colorFGrgb(const uint8_t *red, const uint8_t *green, const uint8_t *blue,
-                 char character) { // rgb
+char *colorFGrgb(uint8_t red, uint8_t green, uint8_t blue) { // rgb
   static char outBuf[21];
   if (snprintf(outBuf, sizeof(outBuf),
-               "\033[48;2;%" PRIu8 ";%" PRIu8 ";%" PRIu8 "m%c", *red, *green,
-               *blue, character) < 0) {
+               "\033[38;2;%" PRIu8 ";%" PRIu8 ";%" PRIu8 "m", red, green,
+               blue) < 0) {
     fprintf(stderr, "ERROR: Failed to copy buffer.");
     return NULL;
   }
