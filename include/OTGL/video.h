@@ -9,7 +9,6 @@
 #include <OTGL/color.h>
 
 typedef struct Video {
-  char *name;
   Cell **videoBuf;
   uint16_t xRes;
   uint16_t yRes;

@@ -1,6 +1,6 @@
 #include <OTGL/color.h>
 
-Cell cnew(const char *newbg, const char *newfg, char newchar) {
+Cell cnew(const char *newbg, const char *newfg, char newchr) {
   Cell *pixel = (Cell *)malloc(sizeof(Cell));
 
   if ((newbg == NULL) || (newfg == NULL)) {
@@ -20,7 +20,7 @@ Cell cnew(const char *newbg, const char *newfg, char newchar) {
     strcpy(pixel->fg, newfg);
   }
 
-  pixel->chr = newchar;
+  pixel->chr = newchr;
 
   Cell retpixel = *pixel;
   return retpixel;

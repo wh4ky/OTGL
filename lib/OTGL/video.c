@@ -2,10 +2,10 @@
 
 // Initializes the class with a name, and Log process and initializes the video
 // buffer with x_width and y_height then fills it with fill().
-Video *vnew(uint16_t nx, uint16_t ny) {
+Video *vnew(uint16_t x, uint16_t y) {
   Video *video = (Video *)malloc(sizeof(Video));
-  video->xRes = nx;
-  video->yRes = ny;
+  video->xRes = x;
+  video->yRes = y;
 
   video->videoBuf = (Cell **)calloc(video->yRes, sizeof(Cell *));
   if (video->videoBuf == NULL) {

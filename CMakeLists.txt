@@ -35,7 +35,6 @@ if(NOT DEFINED ENABLE_DEMOS)
   message(STATUS "ENABLE_DEMOS not defined, using default: ${ENABLE_DEMOS}")
 endif()
 
-
 # include
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/include)

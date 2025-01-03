@@ -15,11 +15,12 @@ Make a GitHub issue for feature requests or issues with the software.
 
 ## About
 
-Open Terminal Graphics Library (OTGL) is a C API which allows you to make software that outputs video to the terminal with [ASCII](https://en.wikipedia.org/wiki/ASCII) and [ANSI escape codes](https://en.wikipedia.org/wiki/ANSI_escape_code).
+Open Terminal Graphics Library (OTGL) is a C API which allows you to make software that outputs video to the terminal with [ASCII](https://en.wikipedia.org/wiki/ASCII) and [ANSI escape codes](https://en.wikipedia.org/wiki/ANSI_escape_code). The library is currently compatible with C99 (and C++ versions that support the C99 stdlib).
 
 ## Features
 
 - Basic CPU-rendered Terminal video output.
+- C99 compatible.
 
 ## Soon™
 
