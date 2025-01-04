@@ -8,13 +8,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # C stuff
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED true)
-set(CMAKE_C_EXTENSIONS OFF)
+set(CMAKE_C_EXTENSIONS OFF) # Only Standard C Library
+set(OTGL_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG} -Wall -Wextra -g) # Debug Build Flags
+set(OTGL_FLAGS_RELEASE ${CMAKE_C_FLAGS_RELEASE} -O3) # Release Build Flags
 
 # Options and targets
-if(NOT DEFINED DEV)
-  option(DEV "Enable debugging and other dev options" OFF)
-endif()
-
 if(NOT DEFINED OTGL_OUTPUT_TYPE)
   set(OTGL_OUTPUT_TYPE "static" CACHE STRING "Type of library output (static/dynamic)")
   set_property(CACHE OTGL_OUTPUT_TYPE PROPERTY STRINGS "static" "dynamic")

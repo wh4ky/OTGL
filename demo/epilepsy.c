@@ -1,6 +1,23 @@
 #include <stdlib.h>
+
+#ifdef _WIN32
+#include <windows.h>
+#else
 #include <time.h>
-#include <unistd.h>
+#endif
+
+int nanosleep(const struct timespec *req, struct timespec *rem);
+
+void sleep_millis(int milliseconds) {
+#ifdef _WIN32
+  Sleep(milliseconds);
+#else
+  struct timespec ts;
+  ts.tv_sec = milliseconds / 1000;
+  ts.tv_nsec = (milliseconds % 1000) * 1000000;
+  nanosleep(&ts, NULL);
+#endif
+}
 
 #include <OTGL/color.h>
 #include <OTGL/video.h>
@@ -24,7 +41,9 @@ int main() {
         vcellSet(video, j, i, temp);
       }
     }
-    usleep(50000);
+
+    sleep_millis(50);
+
     vclear();
     vupdate(video);
   }

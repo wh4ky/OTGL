@@ -17,11 +17,14 @@ if(OTGL_OUTPUT_TYPE STREQUAL "static")
   set_target_properties(OTGL PROPERTIES
   OUTPUT_NAME ${PROJECT_NAME}_${PROJECT_VERSION}
   )
-  if(DEV)
-    target_compile_options(OTGL PRIVATE ${CMAKE_C_FLAGS} -Wall -Wextra -g)
-  endif()
 
-elseif(TE_OUTPUT_TYPE STREQUAL "dynamic")
+  target_compile_options(OTGL PRIVATE
+    ${CMAKE_C_FLAGS}
+    $<$<CONFIG:Debug>:${CMAKE_C_FLAGS_DEBUG}>
+    $<$<CONFIG:Release>:${CMAKE_C_FLAGS_RELEASE}>
+  )
+
+elseif(OTGL_OUTPUT_TYPE STREQUAL "dynamic")
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BIN_OUT_DIR})
 
   # Dynamic library
@@ -31,7 +34,11 @@ elseif(TE_OUTPUT_TYPE STREQUAL "dynamic")
   set_target_properties(OTGL PROPERTIES
   OUTPUT_NAME ${PROJECT_NAME}_${PROJECT_VERSION}
   )
-  if(DEV)
-    target_compile_options(OTGL PRIVATE ${CMAKE_C_FLAGS} -Wall -Wextra -g)
-  endif()
+
+  target_compile_options(OTGL PRIVATE
+    ${CMAKE_C_FLAGS}
+    $<$<CONFIG:Debug>:${OTGL_FLAGS_DEBUG}>
+    $<$<CONFIG:Release>:${OTGL_FLAGS_RELEASE}>
+  )
+
 endif()

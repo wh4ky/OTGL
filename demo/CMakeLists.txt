@@ -1,6 +1,10 @@
 # demo/CMakeLists.txt
 
 if(ENABLE_DEMOS)
+  set(CMAKE_C_STANDARD 11)
+  set(CMAKE_C_STANDARD_REQUIRED true)
+  set(CMAKE_C_EXTENSIONS OFF) 
+
   set(DEMO_SOURCES
     hello_world
     epilepsy
@@ -14,8 +18,10 @@ if(ENABLE_DEMOS)
       RUNTIME_OUTPUT_DIRECTORY ${BIN_OUT_DIR}
     )
 
-    if(DEV)
-      target_compile_options(${demo} PRIVATE ${CMAKE_C_FLAGS} -Wall -Wextra -g)
-    endif()
+    target_compile_options(${demo} PRIVATE
+      ${CMAKE_C_FLAGS}
+      $<$<CONFIG:Debug>:${OTGL_FLAGS_DEBUG}>
+      $<$<CONFIG:Release>:${OTGL_FLAGS_RELEASE}>
+    )
   endforeach()
 endif()
