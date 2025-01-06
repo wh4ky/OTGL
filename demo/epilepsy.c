@@ -1,9 +1,8 @@
 #include <stdlib.h>
+#include <time.h>
 
 #ifdef _WIN32
 #include <windows.h>
-#else
-#include <time.h>
 #endif
 
 int nanosleep(const struct timespec *req, struct timespec *rem);
@@ -22,8 +21,8 @@ void sleep_millis(int milliseconds) {
 #include <OTGL/color.h>
 #include <OTGL/video.h>
 
-#define XRES 40
-#define YRES 20
+#define XRES 100
+#define YRES 50
 
 int main() {
   srand(time(NULL));
@@ -32,7 +31,7 @@ int main() {
 
   vclear();
 
-  for (int n = 0; n < 100; n++) {
+  for (int n = 0; n < 600; n++) { // around 10 frames
     for (int i = 0; i < YRES; i++) {
       for (int j = 0; j < XRES; j++) {
         Cell temp = cnew(colorBGrgb(rand() % 256, rand() % 256, rand() % 256),
@@ -42,10 +41,10 @@ int main() {
       }
     }
 
-    sleep_millis(50);
+    sleep_millis(16); // Around 60 fps
 
     vclear();
-    vupdate(video);
+    vprint(video);
   }
 
   vdelete(video);

@@ -15,7 +15,7 @@ int main() {
     vcellSet(video, i, 0, c); // Set the cell at (i, 0) to the cell 'c'.
   }
 
-  vupdate(video); // Print the video buffer.
+  vprint(video); // Print the video buffer.
   vdelete(video); // Delete the video structure.
 
   return 0;
