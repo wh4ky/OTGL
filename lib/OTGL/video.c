@@ -129,6 +129,7 @@ void vprint(const Video *video) {
   write(STDOUT_FILENO, buffer, index);
   write(STDOUT_FILENO, "\x1b[0m", 4);
   free(buffer);
+  fflush(stdout);
   return;
 }
 #endif

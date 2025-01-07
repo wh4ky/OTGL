@@ -9,8 +9,31 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED true)
 set(CMAKE_C_EXTENSIONS OFF) # Only Standard C Library
-set(OTGL_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG} -Wall -Wextra -g) # Debug Build Flags
-set(OTGL_FLAGS_RELEASE ${CMAKE_C_FLAGS_RELEASE} -O3) # Release Build Flags
+
+# Build type options.
+
+if (CMAKE_BUILD_TYPE)
+  string(TOLOWER ${CMAKE_BUILD_TYPE} BUILDTYPE_LOWER)
+
+  if(BUILDTYPE_LOWER STREQUAL "debug")
+    add_compile_options(
+      -g
+      -Wall
+      -Wextra
+      -Wno-unused-parameter
+      -Wno-unused-value
+      -Wno-missing-field-initializers
+      -Wno-narrowing
+      -Wno-pointer-arith
+    )
+  elseif(BUILDTYPE_LOWER STREQUAL "release")
+    add_compile_options(
+      -O3
+      -DNDEBUG
+    )
+  endif()
+
+endif()
 
 # Options and targets
 if(NOT DEFINED OTGL_OUTPUT_TYPE)

@@ -21,7 +21,6 @@ if(OTGL_OUTPUT_TYPE STREQUAL "static")
   target_compile_options(OTGL PRIVATE
     ${CMAKE_C_FLAGS}
     $<$<CONFIG:Debug>:${CMAKE_C_FLAGS_DEBUG}>
-    $<$<CONFIG:Release>:${CMAKE_C_FLAGS_RELEASE}>
   )
 
 elseif(OTGL_OUTPUT_TYPE STREQUAL "dynamic")
@@ -37,8 +36,6 @@ elseif(OTGL_OUTPUT_TYPE STREQUAL "dynamic")
 
   target_compile_options(OTGL PRIVATE
     ${CMAKE_C_FLAGS}
-    $<$<CONFIG:Debug>:${OTGL_FLAGS_DEBUG}>
-    $<$<CONFIG:Release>:${OTGL_FLAGS_RELEASE}>
   )
 
 endif()

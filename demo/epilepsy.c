@@ -31,7 +31,7 @@ int main() {
 
   vclear();
 
-  for (int n = 0; n < 600; n++) { // around 10 frames
+  for (int n = 0; n < 300; n++) {
     for (int i = 0; i < YRES; i++) {
       for (int j = 0; j < XRES; j++) {
         Cell temp = cnew(colorBGrgb(rand() % 256, rand() % 256, rand() % 256),
@@ -41,7 +41,7 @@ int main() {
       }
     }
 
-    sleep_millis(16); // Around 60 fps
+    sleep_millis(33); // Around 30 fps
 
     vclear();
     vprint(video);

@@ -20,8 +20,6 @@ if(ENABLE_DEMOS)
 
     target_compile_options(${demo} PRIVATE
       ${CMAKE_C_FLAGS}
-      $<$<CONFIG:Debug>:${OTGL_FLAGS_DEBUG}>
-      $<$<CONFIG:Release>:${OTGL_FLAGS_RELEASE}>
     )
   endforeach()
 endif()

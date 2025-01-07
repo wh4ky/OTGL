@@ -13,8 +13,6 @@ if(ENABLE_TESTS)
 
     target_compile_options(${test} PRIVATE
       ${CMAKE_C_FLAGS}
-      $<$<CONFIG:Debug>:${OTGL_FLAGS_DEBUG}>
-      $<$<CONFIG:Release>:${OTGL_FLAGS_RELEASE}> 
     )
 
     add_test(

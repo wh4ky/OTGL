@@ -13,12 +13,14 @@ typedef struct Cell {
   char chr;
 } Cell;
 
-Cell cnew(const char *newbg, const char *newfg, char newchar);
-
 // 20 (excl null terminator) is the largest possible RGB ANSI escape sequence
 // for one dimension (gb or fg) without an extra character.
 // \033[38;2;255;255;255m%s = 20 characters
 
+// Return a new cell.
+Cell cnew(const char *newbg, const char *newfg, char newchar);
+
+// Return formated background or foreground 8-bit or 24-bit color.
 char *colorBG(const uint_fast8_t *color);
 char *colorFG(const uint_fast8_t *color);
 
